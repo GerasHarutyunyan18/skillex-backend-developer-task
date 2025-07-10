@@ -10,6 +10,65 @@ const {
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /api/combination/generate:
+ *   post:
+ *     summary: Generate ticket combinations
+ *     tags: [Combinations]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - items
+ *               - length
+ *             properties:
+ *               items:
+ *                 type: array
+ *                 example: [2, 3]
+ *                 items:
+ *                   type: integer
+ *               length:
+ *                 type: integer
+ *                 example: 2
+ *     responses:
+ *       201:
+ *         description: Successfully created combinations
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 combination:
+ *                   type: string
+ *                   example: '[["A1", "B1"], ["A1", "B2"], ["A2", "B1"], ["A2", "B2"]]'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: '`items` must be a non-empty array'
+ *       500:
+ *         description: Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'An unexpected error occurred'
+ */
 router.post("/generate", async (req, res) => {
   try {
     const { items, length } = req.body;
