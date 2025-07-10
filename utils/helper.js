@@ -1,20 +1,18 @@
 function generateCombinations(items, length) {
-  const res = []
-  console.log('Generating combinations with length:', items);
-  for (let i = 0; i < items.length; i++) { // [[5], [3, 4], [1, 2]]
-    console.log("items-", items[i]);
-    for(let j = 0; j < items[i].length; j++) { // [5]
-      const tmp = []
-      console.log('j-', items[i][j]);
-      for(let x = 0; x < items[i + 1]?.length; x++) {
-        console.log('x-', items[i + 1][x]);
-        if (items[i][j][0] === items[i + 1][x][0]) {
-          continue; // Skip if all indices are the same
+  const res = [];
+  for (let i = 0; i < items.length; i++) {
+    for (let j = 0; j < items[i].length; j++) {
+      for (let k = i + 1; k < items.length; k++) {
+        for (let x = 0; x < length; x++) {
+          if (!items[k][x]) {
+            continue;
+          }
+          res.push([items[i][j], items[k][x]]);
         }
-        tmp.push(items[i + 1][x]);
       }
     }
   }
+  return res;
 }
 
 module.exports = {

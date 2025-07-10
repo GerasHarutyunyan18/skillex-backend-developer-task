@@ -1,0 +1,9 @@
+const combinationMigration = `
+  CREATE TABLE IF NOT EXISTS combinations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    combination JSON NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+  `;
+
+module.exports = { combinationMigration };

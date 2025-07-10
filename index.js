@@ -1,23 +1,30 @@
 const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 3000;
-var bodyParser = require("body-parser");
 const combinationRoute = require("./routes/combination.route");
+const initializeDatabase = require("./db");
+const config = require("./config");
+var bodyParser = require("body-parser");
 
-app.use(bodyParser.urlencoded());
+const app = express();
+const PORT = config.port;
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("Hello, Express + Yarn!");
-});
-
-app.post("/api/data", (req, res) => {
-  console.log(req.body);
-  res.send("Data received");
+  res.send("Welcome to the Skillex backend developer task API.");
 });
 
 app.use("/api/combination", combinationRoute);
 
-app.listen(8080, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+(async () => {
+  const db = await initializeDatabase();
+
+  if (!db) {
+    console.error("Failed to connect to the database.");
+    process.exit(1);
+  }
+  console.log("Database connected successfully.");
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+})();
